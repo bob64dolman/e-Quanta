@@ -1,0 +1,16 @@
+#!/usr/bin/node
+
+
+const WebSocket = require('ws');
+
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', (ws) => {
+ 	ws.send('Welcome to the WebSocket server!!!');
+	wss.on('message', (message) => {
+  		ws.send('string');
+	});
+});
+
+

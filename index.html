@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>qntm dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'><link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<!-- Babylon.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+<script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+<script src="https://cdn.babylonjs.com/recast.js"></script>
+<script src="https://cdn.babylonjs.com/ammo.js"></script>
+<script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+<script src="https://cdn.babylonjs.com/cannon.js"></script>
+<script src="https://cdn.babylonjs.com/Oimo.js"></script>
+<script src="https://cdn.babylonjs.com/earcut.min.js"></script>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+<script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+<script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+<script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+<script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+<script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+<div id='intro' onclick="this.style.display='none';">
+  <div class="containerr">
+    <span style='font-size: 30px;' class="rainbow-text">Banana Computers</span>
+  </div>
+  <img src='data:image/png;base64,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' />
+  <div class="rainbow-text">Think Difficult</div></br>Click to continue
+</div>
+
+<div id="electron-overview">
+  <div onclick="document.getElementById('electron-overview').style.display='none'">Exit(overview electrons e on localhost opened)</div>
+
+  <div class="containerr">
+    <span class="rainbow-text">
+      <div class='pulse'>
+        <div class='pulse fade'>e</div>
+      </div> Electron Computer Quanta Console WebSocket (e)
+    </span>
+  </div>
+
+  <div id='code-emu'>
+    <div id='contect-all'>
+      <div class='contect'></div>
+      <div id='box-collection-muis'>
+        <div class='box-muis'></div>
+      </div>
+      <div id='box-collection-snake'>
+        <div class='box-snake'>
+
+        </div>
+      </div>
+      <div id='box-collection-result'>
+        <div class='box-result'>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="mod">
+      <div class="cube">
+
+        <div class="faces f1">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9"></div>
+
+        </div>
+
+        <div class="faces f2">
+
+          <div class="dot p10"></div>
+          <div class="dot p11"></div>
+          <div class="dot p12"></div>
+          <div class="dot p13"></div>
+
+        </div>
+
+        <div class="faces f3">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9"></div>
+
+        </div>
+
+        <div class="faces f4">
+
+          <div class="dot p10"></div>
+          <div class="dot p11"></div>
+          <div class="dot p12"></div>
+          <div class="dot p13"></div>
+
+        </div>
+
+        <div class="faces f5">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9"></div>
+
+        </div>
+
+        <div class="faces f6">
+
+          <div class="dot p10"></div>
+          <div class="dot p11"></div>
+          <div class="dot p12"></div>
+          <div class="dot p13"></div>
+
+        </div>
+
+        <div class="faces f7">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9"></div>
+
+        </div>
+
+        <div class="faces f8">
+
+          <div class="dot p10"></div>
+          <div class="dot p11"></div>
+          <div class="dot p12"></div>
+          <div class="dot p13"></div>
+
+        </div>
+
+        <div class="faces f9">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9"></div>
+
+        </div>
+
+        <div class="faces f10">
+
+          <div class="dot p10"></div>
+          <div class="dot p11"></div>
+          <div class="dot p12"></div>
+          <div class="dot p13"></div>
+
+        </div>
+
+        <div class="faces f11">
+
+          <div class="dot p1"></div>
+          <div class="dot p2"></div>
+          <div class="dot p3"></div>
+
+          <div class="dot p4"></div>
+          <div class="dot p5"></div>
+          <div class="dot p6"></div>
+
+          <div class="dot p7"></div>
+          <div class="dot p8"></div>
+          <div class="dot p9" onclick='alert()'></div>
+
+        </div>
+
+      </div>
+
+      <div class="project-name">
+        <div class="l1">QBLOB</div>
+        <div class="l2"></div>
+      </div>
+
+    </div>
+  </div>
+  <div id='electron-all-collection'>
+    <div>Tabs e's: [φ] [γ] [Ψ] [ω]</div>
+  </div>
+  <div id='electron-all'>
+    <div class="electron-class">Welcome to the WebSocket server!!!!</div>
+    <div class="electron-class"><u>Quanta Open Key Ⓨ</u></div>
+
+    <div id='electron-id'></div>
+
+  </div>
+
+</div>
+<nav class="navbar navbar-expand-custom navbar-mainbg">
+  <div id='console'>
+    <div style='color:orange;float:left;'>N(</div>
+    <div style='color:green;float:left;' id='quanta-state'>e↑</div>
+    <div style='color:orange;float:left;'>)</div>Quanta Console 7017 =>
+  </div>
+  <a id='quantal' class="navbar-brand navbar-logo glitch" href="#" data-text="N(e↑)" onclick="document.getElementById('electron-overview').style.display='block'">|01} </a>
+  <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-bars text-white"></i>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <div class="hori-selector">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">Computation</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="javascript:void(0);">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">Components</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">Project BladeStorm</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">Grid</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);">Avatar</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div id='page1'>
+  <div class="scene">
+    <div class="wrapper" style='color:lime'>
+      <div class="globe">
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" style='color:lime'></span>
+        <span class="ring" id='nucleus-id-S'></span>
+        <span id='nucleus-id-N' class="ring" style='color:yellow'></span>
+      </div>
+      <i>Electron e with NucleuS</i>
+
+    </div>
+  </div>
+
+  <div class='page1-results'>Results => <div id='page1-resultQ'>4 (loading...)</div>
+  </div>
+
+  <div class='page1-results'>
+    <h7 class='page1-results-title'> "The man on the chair" </h7>
+    <div class='page1-results-lyrics'>
+      <h7>(e0) There was no experiment. Lookup Grid.</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7>(e0) There was no experiment. Lookup Grid. </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7>(e0) There was no experiment. Lookup Grid. </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "The man is atleast in the room sitting on the chair. " e↑</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "The man is sitting on the chair." e↑</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "The Chance of probabillity is 1, therefor is the man sitting on the chair." e↑</h7>
+    </div>
+
+    <div class='page1-results-lyrics'>
+      <h7> "The man is in a different room " e↓↑</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "Bioble 4: we have good and wrong and we have God. The man is observed in a different room." e↓↑</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "We kept searching, but no man observed in the room. " e↓↑ </h7>
+    </div>
+
+    <div class='page1-results-lyrics'>
+      <h7> "The man is walking in the room, thus he is not sitting on the chair. " e↓</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "The man is making sure he is not sitting on the chair. " e↓</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> "The man is not sitting on the chair " e↓</h7>
+    </div>
+
+  </div>
+
+  <div class='page1-results'>
+    <h7 class='page1-results-title'> "NFL, where is the ball"</h7>
+  </div>
+  <div class='page1-results'>
+    <h7 class='page1-results-title'> "Einstein One Rock One Electron e "</h7>
+    <div class='page1-results-lyrics'>
+      <h7> There was no (e)Electron found in the Grid-box </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> The collection of (e)Electrons found in the Grid-box is Zero. </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> No Electrons found inside the Grid-box. </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' reached a Most Up Position! </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' is in a Most Up Position! </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' made a Most Up Position possible! eSpinning up! 1.</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' is at a trans-state, e is up/down at the same time </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' reached a Super Position in the Grid-box! </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' is spinning up and down at the same time </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e^ipi (-1)' is spinning Down </h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Electron 'e' is spinning Down: ( -1 )</h7>
+    </div>
+    <div class='page1-results-lyrics'>
+      <h7> Spinning Down. Electron 'e' is active in the Grid-box: </h7>
+    </div>
+  </div>
+  <div class='page1-results'>
+    <h7 class='page1-results-title'> "S/N Spin UpsideDown going up Coin Flip"</h7>
+  </div>
+  <div class='page1-results'>
+    <h7> ""</h7>
+  </div>
+
+</div>
+<div id='page2'>
+
+  <title>Codebit</title>
+  <input value='N | 01 }' id='N01' />
+  </code>
+
+  <code class='W'>
+
+    <code class='M'>M
+
+    </code>
+
+    <code class='M'>M
+
+      <code onclick="ex2()" class='io-button-exe'>Execute</code>
+
+      <code class='io-button-exe'>End Turn</code>
+
+      <code onClick="rotateElem()" class='io-button-exe'>Special</code>
+
+      <code class='io-button-exe'>Save Click</code>
+
+      <code class='io-button-exe'>Add |01:> </code>
+
+      <select id="carz" name="carlist" form="carform">
+        <option value=""></option>
+
+        <option value="S ">S</option>
+
+        <option value="N ">N</option>
+
+      </select>
+      <select id="carzz" name="carlist" form="carform">
+        <option value="| 01 }"> | 01 }</option>
+        <option value=" | 10 }"> | 10 }</option>
+        <option value=" | 11 }"> | 11 }</option>
+        <option value=" | 00 }"> | 00 }</option>
+        <option id='custom' value=" | 11 }"> | Custom }</option>
+
+      </select>
+
+      <select id='quanta'>
+        <option value=" "> </option>
+        <option value=" - "> -</option>
+        <option value=" + "> +</option>
+
+        <option value=" * "> *</option>
+      </select>
+
+      <input type="number" id="variations" min='2' name="quantity">
+
+      <input id='boints' type="range" name="points" min="3" max="4000000001" step="1" onchange="document.getElementById('custom').value='| '+(dec2bin(this.value))+' : } '; document.getElementById('custom').innerHTML='| '+(dec2bin(this.value))+' }'; document.getElementById('custom-reader').innerHTML=this.value-1; document.getElementById('carzz').value;" />
+      <code id='custom-reader'>
+        <center></center>
+      </code>
+      <code id='custom-reader-e'>
+        <center>e</center>
+      </code>
+    </code>
+
+    <code>3D Loading..</code>
+    <code style='background-color:transparent;' class='M'>
+
+      <code id="DD">______.N___></code></code>
+  </code>
+
+  <code id='C' onclick="phraser(this)">C. Compute..</code>
+  <div id='page2-id'> page 2</div>
+
+  <script>
+    /* * S | 01 : > * | 10 : > */
+    var S = "";
+    var N = 1;
+    var Nadd = 5;
+
+    function dec2bin(dec) {
+      var decc = Number(dec);
+      return decc.toString(2);
+      // binairy 01 and 10 are reserved for S abd -1; 11 is numbre 2, 100 is numbre 3, 101 is numbre 4, etc.., To 4 Billion Dollars
+    }
+    //function bin2dec(){
+    //}
+    function ex2() {
+      document.getElementById('N01').value = (document.getElementById('carz').value + document.getElementById('carzz').value + document.getElementById('quanta').value) + document.getElementById('carz').value + '| ' + dec2bin(Number(document.getElementById('variations').value) + 1) + ' }';
+      dotExe();
+    }
+
+    function inputt() {
+      console.log(this.value);
+      document.getElementById('custom').value = '| ' + (dec2bin(this.value)) + ' } ';
+      document.getElementById('custom').innerHTML = '| ' + (dec2bin(this.value)) + ' }';
+      document.getElementById('custom-reader').innerHTML = this.value - 1;
+      document.getElementById('carzz').value;
+    }
+
+    function phraser(thiz) {
+      if (document.getElementById('boints').value == "4000000001" && document.getElementById('carz').value == 'N ') {
+        setTimeout(function() {
+          document.getElementsByClassName('M')[0].innerHTML = "Connecting...";
+        }, 4000);
+        setTimeout(function() {
+          document.getElementsByClassName('M')[0].innerHTML = "Success!";
+        }, 6000);
+        setTimeout(function() {
+          document.getElementsByClassName('M')[0].innerHTML = "Welcome to Euler Computers <br> --- Passages Mode --- <br> Read all your favorite passages";
+        }, 14000);
+      } else {
+        setTimeout(function() {
+          document.getElementsByClassName('M')[0].innerHTML = "|";
+        }, 14000);
+      }
+    }
+
+    function rotateElem() {
+      document.getElementById('DD').style.transform = 'rotate(-' + N + 'deg)';
+      N = N + Nadd;
+    }
+
+    function dotExe() {
+      var quanta = document.getElementById('quanta').value;
+      if (quanta == ' ') {
+        cum(5, 5);
+      } else {
+        //calc
+        var M = document.getElementsByClassName('M')[0];
+        var carzz = document.getElementById('carzz').value;
+        var carz = document.getElementById('carz').value;
+        var Variations = document.getElementById('variations');
+        carzz = carzz.replace(/\D/g, "");
+        carzz = parseInt(carzz, 2) - 1;
+        //alert(carzz);
+        if (carzz == 1) {
+          carzz = -1;
+        } else if (carzz == -1) {
+          carzz = 0;
+        } else if (carzz == 0) {
+          // e * X ^ 2
+          carzz = Math.E * 100;
+          // alert(carzz);
+          if (carz == 'N ' || carz == 'S ') {
+            carzz = 1;
+          }
+        }
+        if (quanta == ' + ') {
+          M.innerHTML += carzz + Number(Variations.value);
+        } else if (quanta == ' - ') {
+          M.innerHTML += Number(carzz) - Number(Variations.value);
+        } else if (quanta == ' * ') {
+          M.innerHTML += carzz * Number(Variations.value);
+        }
+        M.innerHTML += ', ';
+      }
+    }
+
+    function cum(left /*,'=>'*/ , right) {
+      var M = document.getElementsByClassName('M')[0];
+      var Variations = document.getElementById('variations');
+      M.innerHTML = '';
+      for (j = 0; j < Variations.value; j++) {
+        for (i = 0; i < Variations.value; i++) {
+          //M.innerHTML+="<code class='m'><code>M</code></code>";
+        }
+        // M.innerHTML += "<code style='line-height:35%;'><br></code>";
+      }
+      //combo's
+      var tmp = Variations.value * 2;
+      M.innerHTML += Number(tmp);
+      M.innerHTML += ', ';
+      for (i = 0; i < Variations.value; i++) {
+        M.innerHTML += Number(tmp) - 3;
+        M.innerHTML += ', ';
+        tmp -= 3;
+      }
+    }
+  </script>
+
+</div>
+<div id='page3'>
+  <div id='page3-comp'>
+    <div id='page3-components'>
+      <div id='page3-components-quanta'>
+        <h5>Quanta Components</h5>
+        <h7 onclick="document.getElementById('quantal').innerHTML = '';" style='color: gray; cursor:pointer;text-decoration: underline'>Backspace</h7>
+
+        <div onClick="addQuanta('|01} ')" id='page3-Lshape-both'>
+          <div id='page3-Lshape'>|OI}</div>
+          <div id='page3-Lshape1'>|OI}</div>
+        </div>
+
+        <div class='page3-button-box' onClick="addQuanta('|10}  ')">
+          |IO}
+        </div>
+
+        <div class='page3-button-box' onClick="addQuanta('|11}  ')">
+          |II}
+        </div>
+
+        <div class='page3-button-box' onClick="addQuanta('|00}   ')">
+          |00}
+        </div>
+
+        <div class='page3-button-box' onClick="addQuanta('*')">
+          *
+        </div>
+
+        <div class='page3-button-box' onClick="addQuanta('+')">
+          +
+        </div>
+        <div class='page3-button-box' onClick="addQuanta('-')">
+          -
+        </div>
+        <div class='page3-button-box' onClick="addQuanta('O')">
+          O
+        </div>
+        <div class='page3-button-box' onClick="addQuanta('▲')">
+          ▲
+        </div>
+        <div class='page3-button-box' onClick="addQuanta('S')">S</div>
+        <div class='page3-button-box' onClick="addQuanta('N')">N</div>
+
+        <div class='page3-button-box'>
+          <div onClick="addQuantaEX()">|e}</div>
+          <input id='page3-number' type='number' value='4' min='2'></input>
+
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div id='page4'>
+  <div id=page4-electron>
+    <div class="rings" id="ring2s">
+      <div class="rings" id="ring1s">
+        <div class="electron" id="se1r1">S</div>
+        <div class="electron" id="se2r1">N</div>
+        <div id="nucleus">e</div>
+      </div>
+    </div>
+  </div>
+  <div id=page4-time>
+  </div>
+  <div id='page4-io-count'>(e)Electron<div id='page4-io-countre'>0</div>
+  </div>
+  <div id='page4-io'>IO</div>
+  <div class='page4-nio'>...</div>
+
+  <script>
+    function createIONodus(inp) {
+      $("<div class='page4-nio'>" + inp + "</div>").insertBefore('#page4-io');
+      $('#page4-io').insertBefore($('.page4-nio').first());
+    }
+    setInterval(function() {
+      var Quanta = Math.round((Math.random() * 100 % 3));
+      //console.log(Quanta); Debug. Hasta la Vista BD
+      console.log('enginec3po: ' + Quanta);
+      if (Quanta == 0) {
+        $('#page4-io').html('|OO}');
+        $('#quanta-state').html('e0');
+        console.log('R*3: ' + Math.round(Math.random(0, 2)));
+        switch (Math.round(Math.random(0, 2))) {
+          case 0:
+            document.getElementsByClassName('page1-results-lyrics')[0].style.display = 'block';
+            break;
+          case 1:
+            document.getElementsByClassName('page1-results-lyrics')[1].style.display = 'block';
+            break;
+          case 2:
+            document.getElementsByClassName('page1-results-lyrics')[2].style.display = 'block';
+            break;
+        }
+        createIONodus('OO');
+      } else if ((Quanta) == 2) {
+        $('#page4-io').html('|11}');
+        $('#quanta-state').html('e⇵');
+        //debug
+        console.log($('#page4-io-countre').html(Number($('#page4-io-countre').html()) + 2));
+        createIONodus('11');
+      } else if (Quanta == 1) {
+        $('#page4-io').html('N|O1}');
+        $('#quanta-state').html('e↑');
+        $('#console').css('color', 'orange');
+        // C64 Xbox 360
+        beep(); // Powerfull Electron e
+        setTimeout(function() {
+          $('#console').css('color', 'lime');
+        }, 1000);
+        setTimeout(function() {
+          $('#console').css('color', 'gold');
+        }, 2000);
+        setTimeout(function() {
+          $('#console').css('color', 'lime');
+        }, 3000);
+        setTimeout(function() {
+          $('#console').css('color', 'orange');
+        }, 3500);
+        setTimeout(function() {
+          $('#console').css('color', 'white');
+        }, 4900);
+        createIONodus('O1');
+        console.log('#name::' + $('#quantal').html());
+        /*SwitchArray Loop Array of Components*/
+        $("#nucleus-id-N").css('display', 'block');
+        $("#nucleus-id-S").css('display', 'block');
+        switch ($('#quantal').html().replace(/\s/g, '')) {
+          case '|10}':
+            $("#page1-resultQ").html('-1');
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 9)];
+            talk.style.display = 'block';
+            speak(talk);
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            break;
+          case '|11}':
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('2');
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6)];
+            talk.style.display = 'block';
+            speak(talk);
+            break;
+          case '|01}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html(Math.E * 100 /** e*x^2 **/ );
+            // hide nucleus
+            $("#nucleus-id-N").css('display', 'none');
+            $("#nucleus-id-S").css('display', 'none');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3)];
+            talk.style.display = 'block';
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3 + 12)];
+            talk1.style.display = 'block';
+            speak(talk);
+            break;
+          case 'N|10}':
+            console.log('clear');
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            $("#page1-resultQ").html('-1');
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 9)]; /*FIGHT!*/
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 9 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'S|01}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('1');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3)];
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'N|11}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('2');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6)];
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'S|11}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('2');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6)];
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'S|11}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('2');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6)];
+            talk.style.display = 'block';
+            console.log('S11');
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 6 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'S|10}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('-1');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 9)];
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 9 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'N|01}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            $("#page1-resultQ").html('1');
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            var talk = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3)];
+            talk.style.display = 'block';
+            speak(talk);
+            var talk1 = document.getElementsByClassName('page1-results-lyrics')[Math.round(Math.random() * 100 % 2 + 3 + 12)];
+            talk1.style.display = 'block';
+            speak(talk1);
+            break;
+          case 'N|00}':
+            console.log($(".page1-results-lyrics").css("display", "none"));
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            $("#page1-resultQ").html('0');
+            document.getElementsByClassName('page1-results-lyrics')[0].style.display = 'block';
+            break;
+          case '|00}':
+            document.getElementsByClassName('page1-results-title')[0].style.display = 'block';
+            $("#page1-resultQ").html('0');
+            document.getElementsByClassName('page1-results-lyrics')[0].style.display = 'block';
+            break;
+          case 'S|00}':
+            $("#page1-resultQ").html('0');
+            document.getElementsByClassName('page1-results-lyrics')[0].style.display = 'block';
+            break;
+          default:
+            $("#page1-resultQ").html('empty(0)');
+            document.getElementsByClassName('page1-results-lyrics')[0].style.display = 'block';
+            // regex quantal
+            const regex = new RegExp('([SN ]|)[\\|]([0*1*]*[1*0*]*)}([\\*\\+\\-\\s\\s])', 'g')
+            const str = document.getElementById('quantal').innerHTML;
+            let m;
+            var electron = [''];
+            while ((m = regex.exec(str)) !== null) {
+              // This is necessary to avoid infinite loops with zero-width matches
+              if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+              }
+              // The result can be accessed through the `m`-variable.
+              m.forEach((match, groupIndex) => {
+                //console.log(`Found match, group ${groupIndex}: ${match}`);
+              });
+              //Add all m to electron
+              electron = electron.concat(m);
+            }
+            /*ELECTRON*/
+            //console.log((electron.length - 1) / 3);
+            console.log(electron);
+            if ((electron.length - 1) / 4 == 3) {
+              console.log(electron);
+              //console.log('Tlet let elet');
+              if (electron[3] == '01' && electron[2] == 'S' || electron[2] == 'N' || electron[2] == '') {
+                //console.log(electron[2]);
+                $("#carz").val(electron[2] + ' ');
+                $("#variations").val(parseInt(electron[7], 2) - 1);
+                ex2();
+                //electron[9];
+                //show results
+                $("#page1-resultQ").html(document.getElementsByClassName('M')[0].innerHTML);
+                parseInt(electron[6], 2) - 1;
+                //console.log(parseInt(electron[9], 2) - 1);
+                var el = parseInt(electron[11], 2) - 1;
+                var ele = document.getElementsByClassName('M')[0].innerHTML.indexOf(el);
+                console.log('Qa found in Qb: ' + ele);
+                if (ele >= 0) {
+                  //found next portal fragment
+                  $("#carz").val(electron[2] + ' ');
+                  $("#variations").val(parseInt(electron[11], 2) - 1);
+                  ex2();
+                  if (document.getElementsByClassName('M')[0].innerHTML.indexOf(parseInt(electron[7], 2) - 1) !== -1) {
+                    console.log('found' + ele);
+                    var talk = $("#page1-resultQ").html("<div id='talk' style='font-size:20px;'>( " + (parseInt(electron[7], 2) - 1) + "e )</div>" + document.getElementsByClassName('M')[0].innerHTML);
+                    speak(document.getElementById('talk'));
+                  } else {
+                    //3rd number too high or low
+                    document.getElementsByClassName('M')[0].innerHTML = '3rd Number too high or too low';
+                    $("#page1-resultQ").html(document.getElementsByClassName('M')[0].innerHTML);
+                  }
+                } else {
+                  $("#page1-resultQ").html("Zero Empty(0)");
+                }
+              }
+            } else if ((electron.length - 1) / 4 == 2) {
+              if (electron[3] == '01' && electron[2] == 'S' || electron[2] == 'N' || electron[2] == '' || electron[2] == ' ') {
+                //console.log(electron[2]);
+                $("#carz").val(electron[2] + ' ');
+                $("#variations").val(parseInt(electron[7], 2) - 1);
+                ex2();
+                $("#page1-resultQ").html(document.getElementsByClassName('M')[0].innerHTML);
+              }
+            } else if ((electron.length - 1) / 4 == 1) {
+              $("#page1-resultQ").html(parseInt(electron[3], 2) - 1);
+              speak(document.getElementById('page1-resultQ'));
+              console.log('one');
+            }
+            // skip
+        }
+      } else if (Quanta == 3) {
+        $('#page4-io').html('|1O}');
+        $('#quanta-state').html('e↓');
+        console.log($('#page4-io-countre').html(Number($('#page4-io-countre').html()) - 1));
+        createIONodus('1O');
+      }
+      // Standard
+      $('#page4-time').html(new Date);
+      $('#page2-id').html("Grid°: " +
+        Number($('#page4-io-countre').html()) + '° % 360° = ' + Number($('#page4-io-countre').html()) % 360 + '°');
+      document.getElementById('DD').style.transform = 'rotate(' + Number($('#page4-io-countre').html() - 90) + 'deg)';
+    }, 5000);
+  </script>
+
+</div>
+<div id='page5'>
+
+  <div id="canvasZone"><canvas id="renderCanvas">
+
+    </canvas>
+
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <div id="jsi-particle-container" class="container"></div>
+  <script>
+    var canvas = document.getElementById("renderCanvas");
+    var startRenderLoop = function(engine, canvas) {
+      engine.runRenderLoop(function() {
+        if (sceneToRender && sceneToRender.activeCamera) {
+          sceneToRender.render();
+        }
+      });
+    }
+    var engine = null;
+    var scene = null;
+    var sceneToRender = null;
+    var createDefaultEngine = function() {
+      return new BABYLON.Engine(canvas, true, {
+        preserveDrawingBuffer: true,
+        stencil: true,
+        disableWebGL2Support: false
+      });
+    };
+    var createScene = function() {
+      //Basic demo scene
+      var scene = new BABYLON.Scene(engine);
+      var camera = new BABYLON.ArcRotateCamera("camera", 0, 0, 15, new BABYLON.Vector3(0, 0, 0));
+      camera.setTarget(new BABYLON.Vector3(0, 5, 0));
+      camera.attachControl(canvas, true);
+      var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 0, -15));
+      light.intensity = 1.7;
+      var grid = BABYLON.MeshBuilder.CreatePlane("plane", {
+        size: 20,
+        sideOrientation: BABYLON.Mesh.DOUBLESIDE
+      });
+      grid.position.y = -0.05;
+      var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+      groundMaterial.diffuseTexture = new BABYLON.Texture("https://upload.wikimedia.org/wikipedia/en/b/be/Locator_Grid.png", scene);
+      groundMaterial.diffuseTexture.uScale = groundMaterial.diffuseTexture.vScale = 100;
+      groundMaterial.specularColor = BABYLON.Color3.Black();
+      grid.material = groundMaterial;
+      grid.physicsImpostor = new BABYLON.PhysicsImpostor(grid, BABYLON.PhysicsImpostor.BoxImpostor, {
+        mass: 0,
+        friction: 1,
+        restitution: 0
+      }, scene);
+      grid.position.x = 0;
+      grid.position.z = 0;
+      grid.rotation = new BABYLON.Vector3(90 * Math.PI / 180, 0, 0);
+      // Blueprint
+      function BluePrint(Scroll) {
+        let spot = BABYLON.Vector3.FromArray([0, 5, 0]);
+        const NeucleusN = BABYLON.MeshBuilder.CreateTorus("torus", {
+          thickness: 0.125,
+          diameter: 2
+        });
+        const NeucleusS = BABYLON.MeshBuilder.CreateTorus("torus", {
+          thickness: 0.125,
+          diameter: 2
+        });
+        NeucleusS.diffuseColor = BABYLON.Color3.Green();
+        NeucleusS.addRotation(0, 0, Math.PI / 2.0);
+        NeucleusN.position = spot.clone();
+        NeucleusS.position = spot.clone();
+        var material = new BABYLON.StandardMaterial("material");
+        material.diffuseColor = new BABYLON.Color3(0, 1, 0);
+        //This is my input
+        var polygon = {
+          "points": [
+            Scroll
+          ],
+          "extrude": 5
+        }
+        //Draw a sphere at each points (for reference)
+        for (var i = 0; i < polygon.points.length; i++) {
+          var electron = BABYLON.MeshBuilder.CreateSphere("sphere", {
+            diameter: .5,
+            segments: 16
+          });
+          electron.position.x = polygon.points[i][0];
+          electron.position.y = polygon.points[i][1];
+          electron.position.z = polygon.points[i][2];
+          electron.material = material
+        }
+      }
+      BluePrint([0, 5, 0]);
+      //BluePrint([0,7,0]);
+      //From there, we'd like to draw the polygon (joining all points together) and apply the extrusion perpendicular to the polygon (so we have 90 degrees angles)
+      return scene;
+    };
+    window.initFunction = async function() {
+      var asyncEngineCreation = async function() {
+        try {
+          return createDefaultEngine();
+        } catch (e) {
+          console.log("Raiden: Return Bad Orb We Return God Orb");
+          return createDefaultEngine();
+        }
+      }
+      window.engine = await asyncEngineCreation();
+      if (!engine) throw 'engine should not be null.';
+      startRenderLoop(engine, canvas);
+      window.scene = createScene();
+    };
+    initFunction().then(() => {
+      sceneToRender = scene
+    });
+    // Resize
+    window.addEventListener("resize", function() {
+      // engine.resize();
+    });
+  </script>
+
+</div>
+<div id='page7'>
+  <div class="container">
+    <div class="avatar avatar--green">
+      <div class="avatar-body body--green">
+        <div class="avatar-eye eye--left">
+          <div class="avatar-eye-pupil pupil--purple">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-eye eye--right">
+          <div class="avatar-eye-pupil pupil--purple">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-smile"></div>
+        <div class="avatar-tooth tooth--left"></div>
+        <div class="avatar-tooth tooth--right"></div>
+      </div>
+    </div>
+    <div class="avatar avatar--orange">
+      <div class="avatar-body avatar-body--round body--pink">
+        <div class="avatar-horn horn--right"></div>
+        <div class="avatar-horn horn--left"></div>
+        <div class="avatar-eye avatar-eye--orange eye--center">
+          <div class="avatar-eye-pupil pupil--orange">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-smile">
+          <span class="avatar-tongue"></span>
+        </div>
+      </div>
+    </div>
+    <div class="avatar avatar--pinkish">
+      <div class="avatar-body body--violet">
+        <div class="avatar-eye avatar-eye--magenta eye--left">
+          <div class="avatar-eye-pupil pupil--purple">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-eye avatar-eye--magenta eye--right">
+          <div class="avatar-eye-pupil pupil--purple">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-smile">
+        </div>
+      </div>
+    </div>
+    <div class="avatar avatar--blue">
+      <div class="avatar-body body--darkPink">
+        <div class="avatar-eye avatar-eye--green eye--left">
+          <div class="avatar-eye-pupil pupil--green">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-eye avatar-eye--violet eye--right">
+          <div class="avatar-eye-pupil pupil--pink">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-tooth tooth--right"></div>
+        <div class="avatar-smile">
+        </div>
+      </div>
+    </div>
+    <div class="avatar avatar--magenta">
+      <div class="avatar-body body--pinkishViolet">
+        <div class="avatar-eye eye--center">
+          <div class="avatar-eye-pupil pupil--purple">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-smile">
+        </div>
+      </div>
+    </div>
+    <div class="avatar avatar--skyBlue">
+      <div class="avatar-body body--limeGreen">
+        <div class="avatar-ear ear--left">
+          <span class="avatar-signal"></span>
+        </div>
+        <div class="avatar-ear ear--right">
+          <span class="avatar-signal"></span>
+        </div>
+        <div class="avatar-eye avatar-eye--green eye--center-top">
+          <div class="avatar-eye-pupil pupil--limeGreen">
+            <span class="avatar-eye-pupil-blackThing">
+              <span class="avatar-eye-pupil-lightReflection"></span>
+            </span>
+          </div>
+        </div>
+        <div class="avatar-smile">
+        </div>
+      </div>
+    </div>
+  </div>
+  made by Bob Dolman
+</div>
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js'></script><script  src="./script.js"></script>
+
+  </body>
+  
+</html>
